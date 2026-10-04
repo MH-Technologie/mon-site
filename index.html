@@ -1,0 +1,4095 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#11110f" />
+  <meta name="description" content="MHSHOP — Smartphones, gadgets et accessoires technologiques en Afrique." />
+  <meta property="og:title" content="MHSHOP — Technology, made useful." />
+  <meta property="og:description" content="Smartphones, gadgets et accessoires. Livraison et paiement Mobile Money." />
+  <meta property="og:type" content="website" />
+
+  <title>MHSHOP — Smartphones & Technology</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* =========================================================
+       DESIGN TOKENS
+    ========================================================= */
+    :root {
+      --paper: #f4f1e9;
+      --paper-2: #ebe6dc;
+      --ink: #11110f;
+      --muted: #706e68;
+      --line: #d8d2c7;
+      --accent: #c7623c;
+      --deep: #173f35;
+      --sand: #d9d0c2;
+      --white: #fffdf8;
+      --success: #28634e;
+      --danger: #a63f35;
+
+      --display: "Sora", sans-serif;
+      --body: "DM Sans", sans-serif;
+
+      --container: 1440px;
+      --ease: cubic-bezier(.22,.61,.36,1);
+    }
+
+    [data-theme="dark"] {
+      --paper: #11110f;
+      --paper-2: #1a1916;
+      --ink: #f4f1e9;
+      --muted: #aaa59a;
+      --line: #35332e;
+      --accent: #d8754d;
+      --deep: #315f53;
+      --sand: #292720;
+      --white: #191815;
+      --success: #6eae91;
+      --danger: #db7165;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      overflow-x: hidden;
+      transition: background .35s ease, color .35s ease;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--paper);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--ink);
+      border-radius: 20px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin-inline: auto;
+    }
+
+    .display {
+      font-family: var(--display);
+      letter-spacing: -.055em;
+    }
+
+    .section {
+      padding: 110px 0;
+      position: relative;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 5vw, 5.5rem);
+      line-height: .94;
+      letter-spacing: -.065em;
+      max-width: 900px;
+    }
+
+    .btn {
+      min-height: 48px;
+      padding: 0 22px;
+      border: 1px solid var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: .25s var(--ease);
+      font-weight: 600;
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .btn-dark:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+    }
+
+    .product-visual {
+      position: relative;
+      min-height: 330px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(199,98,60,.22), transparent 32%),
+        linear-gradient(135deg, var(--paper-2), var(--sand));
+    }
+
+    .phone {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 145px;
+      height: 285px;
+      transform: translate(-50%, -45%) rotate(5deg);
+      border: 7px solid #151513;
+      border-radius: 30px;
+      background: linear-gradient(145deg, #39443e, #0d0e0d);
+      box-shadow: 25px 35px 60px rgba(0,0,0,.22);
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 15px;
+      border-radius: 20px;
+      background: #070707;
+    }
+
+    .phone::after {
+      content: "MH";
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      transform: translate(-50%, -50%);
+      color: rgba(255,255,255,.2);
+      font-family: var(--display);
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .camera-dot {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #161616;
+      border: 3px solid #353535;
+    }
+
+    .camera-1 { top: 27px; left: 20px; }
+    .camera-2 { top: 27px; left: 49px; }
+    .camera-3 { top: 55px; left: 20px; }
+
+    .brand-strip {
+      overflow: hidden;
+      border-block: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    .brand-track {
+      display: flex;
+      width: max-content;
+      animation: brands 28s linear infinite;
+    }
+
+    .brand-track span {
+      padding: 25px 42px;
+      font-family: var(--display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      opacity: .6;
+      border-right: 1px solid var(--line);
+    }
+
+    @keyframes brands {
+      to { transform: translateX(-50%); }
+    }
+
+    .marquee-stop:hover .brand-track {
+      animation-play-state: paused;
+    }
+
+    .category-card {
+      position: relative;
+      min-height: 260px;
+      padding: 28px;
+      overflow: hidden;
+      transition: .35s var(--ease);
+    }
+
+    .category-card:hover {
+      transform: translateY(-7px);
+    }
+
+    .category-card .number {
+      font-family: var(--display);
+      font-size: 5rem;
+      line-height: 1;
+      opacity: .08;
+      position: absolute;
+      right: 10px;
+      bottom: -5px;
+    }
+
+    .category-shape {
+      position: absolute;
+      right: -20px;
+      bottom: -40px;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .15;
+    }
+
+    .product-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s var(--ease), border-color .3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--ink);
+    }
+
+    .product-info {
+      padding: 22px;
+    }
+
+    .wishlist {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 42px;
+      height: 42px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      z-index: 4;
+    }
+
+    .wishlist.active {
+      color: var(--accent);
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 6px 9px;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .stock-bar {
+      height: 5px;
+      background: var(--line);
+      overflow: hidden;
+    }
+
+    .stock-bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .filter-box {
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 15px;
+    }
+
+    .filter-box input,
+    .filter-box select,
+    .newsletter input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .tab {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .tab.active {
+      color: var(--ink);
+      border-bottom-color: var(--accent);
+    }
+
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .bento > article {
+      min-height: 280px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bento-a { grid-column: span 7; }
+    .bento-b { grid-column: span 5; }
+    .bento-c { grid-column: span 4; }
+    .bento-d { grid-column: span 8; }
+
+    .bundle-line {
+      height: 1px;
+      background: var(--line);
+      margin: 18px 0;
+    }
+
+    .checkout-step {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+    }
+
+    .checkout-step.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.58);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(900px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .drawer {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: min(480px, 100%);
+      background: var(--paper);
+      z-index: 90;
+      transform: translateX(105%);
+      transition: transform .4s var(--ease);
+      box-shadow: -20px 0 70px rgba(0,0,0,.18);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 200;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 15px 20px;
+      transform: translateY(130px);
+      transition: .35s var(--ease);
+      max-width: 360px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+    }
+
+    .mobile-nav {
+      display: none;
+    }
+
+    .search-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      background: var(--paper);
+      transform: translateY(-100%);
+      transition: transform .45s var(--ease);
+      overflow-y: auto;
+    }
+
+    .search-overlay.open {
+      transform: translateY(0);
+    }
+
+    .hero-grid {
+      min-height: calc(100vh - 120px);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero-product {
+      min-height: 650px;
+      background: var(--deep);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-product::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: rgba(199,98,60,.25);
+      right: -160px;
+      top: -130px;
+    }
+
+    .hero-phone {
+      width: 225px;
+      height: 455px;
+      border-width: 9px;
+      transform: translate(-50%, -50%) rotate(7deg);
+      top: 50%;
+      left: 50%;
+    }
+
+    .hero-copy {
+      max-width: 800px;
+    }
+
+    .floating-spec {
+      position: absolute;
+      padding: 13px 16px;
+      background: rgba(244,241,233,.93);
+      color: #11110f;
+      border: 1px solid rgba(0,0,0,.1);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      box-shadow: 0 15px 35px rgba(0,0,0,.13);
+    }
+
+    .spec-1 { top: 22%; left: 9%; }
+    .spec-2 { bottom: 24%; right: 8%; }
+    .spec-3 { bottom: 10%; left: 14%; }
+
+    .number-large {
+      font-family: var(--display);
+      font-size: clamp(4rem, 10vw, 10rem);
+      line-height: .8;
+      letter-spacing: -.09em;
+    }
+
+    .payment-pill {
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      font-size: .78rem;
+      font-weight: 600;
+    }
+
+    .floating-whatsapp {
+      position: fixed;
+      right: 20px;
+      bottom: 90px;
+      z-index: 70;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #1f6d4f;
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 35px rgba(0,0,0,.2);
+    }
+
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      pointer-events: none;
+      z-index: 300;
+      display: none;
+    }
+
+    .cursor-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .cursor-ring {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+      z-index: 80;
+      transform: translateX(-100%);
+      transition: transform .4s var(--ease);
+      overflow-y: auto;
+    }
+
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 0 20px;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .faq.open .faq-answer {
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        width: min(calc(100% - 28px), var(--container));
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-product {
+        min-height: 500px;
+      }
+
+      .bento-a,
+      .bento-b,
+      .bento-c,
+      .bento-d {
+        grid-column: span 12;
+      }
+
+      .desktop-nav {
+        display: none !important;
+      }
+
+      .mobile-nav {
+        display: flex;
+      }
+
+      body {
+        padding-bottom: 66px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section-title {
+        font-size: 2.65rem;
+      }
+
+      .hero-product {
+        min-height: 440px;
+      }
+
+      .hero-phone {
+        width: 170px;
+        height: 345px;
+      }
+
+      .floating-spec {
+        font-size: .62rem;
+      }
+
+      .product-visual {
+        min-height: 250px;
+      }
+
+      .phone {
+        width: 115px;
+        height: 230px;
+      }
+
+      .category-card {
+        min-height: 190px;
+      }
+
+      .mobile-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 66px;
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        z-index: 75;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      .mobile-nav button {
+        min-width: 54px;
+        min-height: 54px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        font-size: .62rem;
+      }
+    }
+
+    @media (pointer: fine) and (min-width: 1000px) {
+      .cursor-dot,
+      .cursor-ring {
+        display: block;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     LOADER
+========================================================= -->
+<div id="loader" style="
+  position:fixed;
+  inset:0;
+  background:#11110f;
+  color:#f4f1e9;
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+">
+  <div class="text-center">
+    <div class="display text-4xl font-bold tracking-tight">MH<span style="color:#c7623c">.</span></div>
+    <div class="mt-3 text-xs tracking-[.3em] opacity-50 uppercase">Technology, made useful.</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- =========================================================
+     01 — ANNOUNCEMENT BAR
+========================================================= -->
+<div class="bg-[var(--ink)] text-[var(--paper)] text-xs">
+  <div class="container min-h-[38px] flex items-center justify-between gap-4">
+    <div class="flex gap-5 overflow-hidden whitespace-nowrap">
+      <span>Livraison disponible à Douala & Yaoundé</span>
+      <span class="opacity-40">•</span>
+      <span>Paiement Orange Money / MTN MoMo</span>
+      <span class="opacity-40">•</span>
+      <span>Support WhatsApp</span>
+    </div>
+
+    <div class="hidden md:flex items-center gap-3">
+      <button onclick="setLanguage('fr')" class="font-bold">FR</button>
+      <span class="opacity-30">/</span>
+      <button onclick="setLanguage('en')" class="opacity-60">EN</button>
+
+      <select id="currencySelect"
+        onchange="setCurrency(this.value)"
+        class="bg-transparent outline-none cursor-pointer">
+        <option value="XAF">XAF</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="NGN">NGN</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     02 — HEADER
+========================================================= -->
+<header id="header"
+  class="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--paper)]/95 backdrop-blur-md">
+
+  <div class="container h-[76px] flex items-center justify-between gap-6">
+
+    <button onclick="toggleMobileMenu()" class="md:hidden min-w-[44px] min-h-[44px]">
+      <i data-lucide="menu"></i>
+    </button>
+
+    <a href="#home" class="display text-2xl font-extrabold tracking-[-.08em]">
+      MH<span class="text-[var(--accent)]">.</span>
+    </a>
+
+    <nav class="desktop-nav hidden md:flex items-center gap-7 text-sm font-semibold">
+      <a href="#shop" class="hover:text-[var(--accent)] transition">Smartphones</a>
+      <a href="#categories" class="hover:text-[var(--accent)] transition">Catégories</a>
+      <a href="#gadgets" class="hover:text-[var(--accent)] transition">Gadgets</a>
+      <a href="#accessories" class="hover:text-[var(--accent)] transition">Accessoires</a>
+      <a href="#deals" class="text-[var(--accent)]">Offres</a>
+    </nav>
+
+    <div class="flex items-center gap-1">
+      <button onclick="openSearch()" aria-label="Recherche"
+        class="min-w-[44px] min-h-[44px] grid place-items-center">
+        <i data-lucide="search" size="19"></i>
+      </button>
+
+      <button onclick="toggleTheme()" aria-label="Mode sombre"
+        class="hidden sm:grid min-w-[44px] min-h-[44px] place-items-center">
+        <i data-lucide="sun-moon" size="19"></i>
+      </button>
+
+      <button onclick="openFavorites()" aria-label="Favoris"
+        class="hidden sm:grid min-w-[44px] min-h-[44px] place-items-center relative">
+        <i data-lucide="heart" size="19"></i>
+        <span id="favCount"
+          class="absolute top-1 right-0 text-[9px] w-4 h-4 bg-[var(--accent)] text-white rounded-full hidden place-items-center">0</span>
+      </button>
+
+      <button onclick="openCart()" aria-label="Panier"
+        class="min-w-[44px] min-h-[44px] grid place-items-center relative">
+        <i data-lucide="shopping-bag" size="19"></i>
+        <span id="cartCount"
+          class="absolute top-1 right-0 text-[9px] w-4 h-4 bg-[var(--accent)] text-white rounded-full hidden place-items-center">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- =========================================================
+     MOBILE MENU
+========================================================= -->
+<div id="mobileMenu" class="mobile-menu">
+  <div class="p-6">
+    <div class="flex justify-between items-center mb-14">
+      <div class="display text-2xl font-bold">MH<span class="text-[var(--accent)]">.</span></div>
+      <button onclick="toggleMobileMenu()" class="min-w-[44px] min-h-[44px]">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <nav class="space-y-7">
+      <a onclick="toggleMobileMenu()" href="#shop" class="display block text-4xl">Smartphones</a>
+      <a onclick="toggleMobileMenu()" href="#categories" class="display block text-4xl">Catégories</a>
+      <a onclick="toggleMobileMenu()" href="#gadgets" class="display block text-4xl">Gadgets</a>
+      <a onclick="toggleMobileMenu()" href="#accessories" class="display block text-4xl">Accessoires</a>
+      <a onclick="toggleMobileMenu()" href="#deals" class="display block text-4xl text-[var(--accent)]">Offres</a>
+    </nav>
+  </div>
+</div>
+
+<!-- =========================================================
+     SEARCH OVERLAY
+========================================================= -->
+<div id="searchOverlay" class="search-overlay">
+  <div class="container py-8">
+    <div class="flex justify-between items-center mb-16">
+      <span class="display text-xl font-bold">Recherche</span>
+      <button onclick="closeSearch()" class="min-w-[44px] min-h-[44px]">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="border-b-2 border-[var(--ink)] flex items-center gap-4">
+      <i data-lucide="search"></i>
+      <input id="searchInput"
+        oninput="instantSearch(this.value)"
+        class="bg-transparent border-0 outline-none w-full py-5 text-3xl md:text-6xl display"
+        placeholder="iPhone, Samsung, écouteurs..." />
+    </div>
+
+    <div id="searchResults" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+<main>
+
+<!-- =========================================================
+     03 — HERO
+========================================================= -->
+<section id="home" class="section pt-10 md:pt-20">
+  <div class="container">
+    <div class="hero-grid">
+
+      <div class="hero-copy reveal">
+        <div class="eyebrow mb-6">MHSHOP / 2026 COLLECTION</div>
+
+        <h1 class="display text-[clamp(3.7rem,8vw,8.5rem)] leading-[.83] font-semibold">
+          La tech qui
+          <span class="text-[var(--accent)]">travaille</span>
+          pour vous.
+        </h1>
+
+        <p class="text-[var(--muted)] text-lg md:text-xl max-w-xl mt-8 leading-relaxed">
+          Smartphones, audio, mobilité et accessoires sélectionnés pour le quotidien africain.
+          Double SIM, autonomie, 4G/5G et paiement Mobile Money.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mt-9">
+          <a href="#shop" class="btn btn-dark">
+            Voir les smartphones
+            <i data-lucide="arrow-up-right" size="17"></i>
+          </a>
+          <a href="#categories" class="btn btn-outline">
+            Explorer
+          </a>
+        </div>
+
+        <div class="grid grid-cols-3 border-t border-[var(--line)] mt-14 pt-6 max-w-xl">
+          <div>
+            <strong class="display text-2xl">4G/5G</strong>
+            <div class="text-xs text-[var(--muted)] mt-1">réseaux</div>
+          </div>
+          <div class="border-l border-[var(--line)] pl-5">
+            <strong class="display text-2xl">XAF</strong>
+            <div class="text-xs text-[var(--muted)] mt-1">prix locaux</div>
+          </div>
+          <div class="border-l border-[var(--line)] pl-5">
+            <strong class="display text-2xl">MM</strong>
+            <div class="text-xs text-[var(--muted)] mt-1">Mobile Money</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-product reveal" id="heroProduct">
+        <div class="absolute top-7 left-7 text-white/70 text-xs tracking-[.2em] uppercase">
+          Featured device / 01
+        </div>
+
+        <div class="phone hero-phone">
+          <div class="camera-dot camera-1"></div>
+          <div class="camera-dot camera-2"></div>
+          <div class="camera-dot camera-3"></div>
+        </div>
+
+        <div class="floating-spec spec-1">
+          <strong>256 GB</strong><br>
+          stockage
+        </div>
+
+        <div class="floating-spec spec-2">
+          <strong>48 MP</strong><br>
+          caméra
+        </div>
+
+        <div class="floating-spec spec-3">
+          <strong>5000 mAh</strong><br>
+          batterie
+        </div>
+
+        <div class="absolute bottom-7 left-7 right-7 text-white flex justify-between items-end">
+          <div>
+            <div class="text-xs uppercase tracking-[.2em] opacity-50">Samsung</div>
+            <div class="display text-2xl font-bold">Galaxy A56 5G</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs opacity-50">À partir de</div>
+            <div class="display text-xl font-bold">259 900 XAF</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     04 — BRANDS
+========================================================= -->
+<section class="marquee-stop brand-strip">
+  <div class="brand-track">
+    <span>APPLE</span>
+    <span>SAMSUNG</span>
+    <span>TECNO</span>
+    <span>INFINIX</span>
+    <span>ITEL</span>
+    <span>ANKER</span>
+    <span>JBL</span>
+    <span>SONY</span>
+    <span>ORAIOMO</span>
+    <span>XIAOMI</span>
+
+    <span>APPLE</span>
+    <span>SAMSUNG</span>
+    <span>TECNO</span>
+    <span>INFINIX</span>
+    <span>ITEL</span>
+    <span>ANKER</span>
+    <span>JBL</span>
+    <span>SONY</span>
+    <span>ORAIOMO</span>
+    <span>XIAOMI</span>
+  </div>
+</section>
+
+<!-- =========================================================
+     05 — CATEGORIES
+========================================================= -->
+<section id="categories" class="section">
+  <div class="container">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-7 mb-12 reveal">
+      <div>
+        <div class="eyebrow mb-5">02 / Categories</div>
+        <h2 class="section-title">Pas seulement<br>des téléphones.</h2>
+      </div>
+      <p class="text-[var(--muted)] max-w-sm">
+        Une sélection pensée autour de ce que vous utilisez réellement :
+        communiquer, travailler, écouter, filmer et rester connecté.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-12 gap-3">
+      <a href="#shop" onclick="filterCategory('Smartphones')"
+         class="category-card card md:col-span-7 bg-[var(--deep)] text-white reveal">
+        <span class="eyebrow text-[var(--accent)]">01</span>
+        <h3 class="display text-4xl md:text-6xl mt-20">Smartphones</h3>
+        <p class="absolute bottom-7 left-7 text-sm opacity-60">Apple · Samsung · Tecno · Infinix · itel</p>
+        <span class="number">01</span>
+        <span class="category-shape"></span>
+      </a>
+
+      <a href="#gadgets"
+         class="category-card card md:col-span-5 reveal">
+        <span class="eyebrow">02</span>
+        <h3 class="display text-4xl mt-20">Gadgets</h3>
+        <p class="absolute bottom-7 left-7 text-sm text-[var(--muted)]">Audio, wearables, mobilité.</p>
+        <span class="number">02</span>
+      </a>
+
+      <a href="#accessories"
+         class="category-card card md:col-span-4 reveal">
+        <span class="eyebrow">03</span>
+        <h3 class="display text-3xl mt-20">Protection</h3>
+        <p class="absolute bottom-7 left-7 text-sm text-[var(--muted)]">Coques & verres.</p>
+        <span class="number">03</span>
+      </a>
+
+      <a href="#accessories"
+         class="category-card card md:col-span-4 reveal bg-[var(--paper-2)]">
+        <span class="eyebrow">04</span>
+        <h3 class="display text-3xl mt-20">Power</h3>
+        <p class="absolute bottom-7 left-7 text-sm text-[var(--muted)]">Chargeurs & batteries.</p>
+        <span class="number">04</span>
+      </a>
+
+      <a href="#gadgets"
+         class="category-card card md:col-span-4 reveal">
+        <span class="eyebrow">05</span>
+        <h3 class="display text-3xl mt-20">Gaming</h3>
+        <p class="absolute bottom-7 left-7 text-sm text-[var(--muted)]">Consoles & périphériques.</p>
+        <span class="number">05</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     06 — FLASH SALES
+========================================================= -->
+<section id="deals" class="section bg-[var(--ink)] text-[var(--paper)]">
+  <div class="container">
+    <div class="grid lg:grid-cols-[.75fr_1.25fr] gap-16 items-center">
+      <div class="reveal">
+        <div class="eyebrow">03 / Offre limitée</div>
+        <h2 class="display text-5xl md:text-7xl mt-6 leading-[.9]">
+          Prix courts.<br>
+          Stock encore<br>
+          plus court.
+        </h2>
+
+        <div class="mt-10 flex gap-3" id="countdown">
+          <div class="border border-white/15 p-4 min-w-[70px] text-center">
+            <strong id="hours" class="display text-2xl">08</strong>
+            <div class="text-[10px] opacity-50">HEURES</div>
+          </div>
+          <div class="border border-white/15 p-4 min-w-[70px] text-center">
+            <strong id="minutes" class="display text-2xl">42</strong>
+            <div class="text-[10px] opacity-50">MINUTES</div>
+          </div>
+          <div class="border border-white/15 p-4 min-w-[70px] text-center">
+            <strong id="seconds" class="display text-2xl">19</strong>
+            <div class="text-[10px] opacity-50">SECONDES</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="flashProduct" class="reveal"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     07 — FEATURED PRODUCTS
+========================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="flex justify-between items-end mb-10 reveal">
+      <div>
+        <div class="eyebrow mb-5">04 / Sélection</div>
+        <h2 class="section-title">Ce qui mérite<br>un deuxième regard.</h2>
+      </div>
+      <a href="#shop" class="hidden md:flex items-center gap-2 font-semibold">
+        Tout voir <i data-lucide="arrow-up-right" size="16"></i>
+      </a>
+    </div>
+
+    <div id="featuredGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     08 — COMPLETE SHOP
+========================================================= -->
+<section id="shop" class="section border-y border-[var(--line)]">
+  <div class="container">
+
+    <div class="grid lg:grid-cols-[280px_1fr] gap-10">
+
+      <aside class="lg:sticky lg:top-28 h-fit">
+        <div class="eyebrow mb-4">05 / Boutique</div>
+        <h2 class="display text-4xl font-semibold mb-8">Trouver le bon appareil.</h2>
+
+        <div class="space-y-3">
+          <div class="filter-box">
+            <label class="text-xs text-[var(--muted)]">Recherche</label>
+            <input id="catalogSearch" oninput="renderCatalog()" placeholder="iPhone, Galaxy..." />
+          </div>
+
+          <div class="filter-box">
+            <label class="text-xs text-[var(--muted)]">Marque</label>
+            <select id="brandFilter" onchange="renderCatalog()">
+              <option value="">Toutes les marques</option>
+              <option>Apple</option>
+              <option>Samsung</option>
+              <option>Tecno</option>
+              <option>Infinix</option>
+              <option>itel</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <label class="text-xs text-[var(--muted)]">Réseau</label>
+            <select id="networkFilter" onchange="renderCatalog()">
+              <option value="">Tous</option>
+              <option value="5G">5G</option>
+              <option value="4G">4G</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <label class="text-xs text-[var(--muted)]">RAM</label>
+            <select id="ramFilter" onchange="renderCatalog()">
+              <option value="">Toutes</option>
+              <option value="4">4 Go</option>
+              <option value="6">6 Go</option>
+              <option value="8">8 Go</option>
+              <option value="12">12 Go</option>
+            </select>
+          </div>
+
+          <div class="filter-box">
+            <label class="text-xs text-[var(--muted)]">Prix maximum</label>
+            <input id="priceFilter" type="range" min="50000" max="1000000" step="25000"
+              value="1000000" oninput="document.getElementById('priceLabel').textContent=formatPrice(this.value);renderCatalog()">
+            <div id="priceLabel" class="font-semibold mt-2">1 000 000 XAF</div>
+          </div>
+
+          <button onclick="resetFilters()" class="text-sm underline underline-offset-4">
+            Réinitialiser
+          </button>
+        </div>
+      </aside>
+
+      <div>
+        <div class="flex justify-between items-center mb-7">
+          <span id="productResultCount" class="text-sm text-[var(--muted)]"></span>
+          <select id="sortSelect" onchange="renderCatalog()"
+            class="bg-transparent border-b border-[var(--line)] py-2 outline-none">
+            <option value="default">Pertinence</option>
+            <option value="priceAsc">Prix croissant</option>
+            <option value="priceDesc">Prix décroissant</option>
+            <option value="rating">Mieux notés</option>
+            <option value="new">Nouveautés</option>
+          </select>
+        </div>
+
+        <div id="catalogGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+
+        <div class="text-center mt-10">
+          <button id="loadMoreBtn" onclick="loadMore()" class="btn btn-outline">
+            Voir plus
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     09 — NEW ARRIVALS
+========================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <div class="eyebrow mb-4">06 / New arrivals</div>
+        <h2 class="section-title">Les derniers<br>arrivages.</h2>
+      </div>
+      <div class="hidden md:flex gap-2">
+        <button class="new-prev w-12 h-12 border border-[var(--line)] grid place-items-center">
+          <i data-lucide="arrow-left" size="17"></i>
+        </button>
+        <button class="new-next w-12 h-12 border border-[var(--line)] grid place-items-center">
+          <i data-lucide="arrow-right" size="17"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="swiper newSwiper">
+      <div class="swiper-wrapper" id="newProducts"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     10 — COMPARATOR
+========================================================= -->
+<section class="section bg-[var(--paper-2)]">
+  <div class="container">
+    <div class="grid lg:grid-cols-[.75fr_1.25fr] gap-12">
+      <div>
+        <div class="eyebrow">07 / Comparateur</div>
+        <h2 class="display text-5xl md:text-7xl mt-5 leading-[.9]">
+          Comparez<br>sans deviner.
+        </h2>
+        <p class="text-[var(--muted)] mt-7 max-w-md">
+          Les fiches sont présentées selon les caractéristiques qui comptent
+          vraiment à l'achat.
+        </p>
+
+        <div class="mt-8 space-y-3">
+          <select id="compare1" onchange="updateComparison()" class="w-full border border-[var(--line)] bg-[var(--paper)] p-4"></select>
+          <select id="compare2" onchange="updateComparison()" class="w-full border border-[var(--line)] bg-[var(--paper)] p-4"></select>
+          <select id="compare3" onchange="updateComparison()" class="w-full border border-[var(--line)] bg-[var(--paper)] p-4"></select>
+        </div>
+      </div>
+
+      <div class="card p-5 md:p-8">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left" id="comparisonTable"></table>
+        </div>
+        <div class="mt-8 h-[300px]">
+          <canvas id="comparisonChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     11 — BUDGET
+========================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid lg:grid-cols-[.7fr_1.3fr] gap-12 items-end">
+      <div>
+        <div class="eyebrow">08 / Budget</div>
+        <h2 class="section-title mt-5">Un bon téléphone n'a pas besoin d'être hors de prix.</h2>
+      </div>
+
+      <div>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <button onclick="budgetFilter(75000)" class="tab">≤ 75k</button>
+          <button onclick="budgetFilter(125000)" class="tab">≤ 125k</button>
+          <button onclick="budgetFilter(200000)" class="tab">≤ 200k</button>
+          <button onclick="budgetFilter(300000)" class="tab">≤ 300k</button>
+        </div>
+        <div id="budgetGrid" class="grid sm:grid-cols-2 gap-3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     12 — GADGETS BENTO
+========================================================= -->
+<section id="gadgets" class="section bg-[var(--ink)] text-[var(--paper)]">
+  <div class="container">
+    <div class="mb-12">
+      <div class="eyebrow">09 / Gadgets</div>
+      <h2 class="section-title mt-5">Tout ce qui rend<br>la journée plus simple.</h2>
+    </div>
+
+    <div class="bento">
+      <article class="bento-a bg-[var(--deep)]">
+        <div class="eyebrow">01 / Audio</div>
+        <h3 class="display text-5xl mt-16">Du son qui<br>ne prend pas<br>toute la place.</h3>
+        <i data-lucide="headphones" class="absolute right-8 bottom-8 opacity-30" size="90"></i>
+      </article>
+
+      <article class="bento-b bg-[var(--paper-2)] text-[var(--ink)]">
+        <div class="eyebrow">02 / Wearables</div>
+        <h3 class="display text-4xl mt-20">Smartwatch.</h3>
+        <p class="absolute bottom-7 text-[var(--muted)]">Notifications, appels, activité.</p>
+        <i data-lucide="watch" class="absolute right-8 bottom-8 opacity-20" size="80"></i>
+      </article>
+
+      <article class="bento-c border border-white/10">
+        <div class="eyebrow">03 / Mobility</div>
+        <h3 class="display text-3xl mt-20">Drones & caméras.</h3>
+        <i data-lucide="camera" class="absolute right-7 bottom-7 opacity-30" size="65"></i>
+      </article>
+
+      <article class="bento-d border border-white/10">
+        <div class="eyebrow">04 / Connectivity</div>
+        <h3 class="display text-4xl mt-20">Routeurs 4G/5G,<br>TV Box & maison connectée.</h3>
+        <i data-lucide="wifi" class="absolute right-8 bottom-8 opacity-30" size="90"></i>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     13 — ACCESSORIES
+========================================================= -->
+<section id="accessories" class="section">
+  <div class="container">
+    <div class="mb-10">
+      <div class="eyebrow">10 / Accessoires</div>
+      <h2 class="section-title mt-5">Les petits objets<br>qui changent l'usage.</h2>
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto mb-8 border-b border-[var(--line)]">
+      <button class="tab active" onclick="accessoryTab('Charge')">Charge</button>
+      <button class="tab" onclick="accessoryTab('Protection')">Protection</button>
+      <button class="tab" onclick="accessoryTab('Audio')">Audio</button>
+      <button class="tab" onclick="accessoryTab('Power')">Power</button>
+      <button class="tab" onclick="accessoryTab('Câbles')">Câbles</button>
+    </div>
+
+    <div id="accessoryGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     14 — BUNDLES
+========================================================= -->
+<section class="section bg-[var(--paper-2)]">
+  <div class="container">
+    <div class="grid lg:grid-cols-[.8fr_1.2fr] gap-12">
+      <div>
+        <div class="eyebrow">11 / Packs</div>
+        <h2 class="display text-5xl md:text-7xl mt-5 leading-[.9]">
+          Achetez<br>l'ensemble.
+        </h2>
+        <p class="text-[var(--muted)] mt-7">
+          Les accessoires indispensables regroupés avec votre téléphone,
+          avec l'économie calculée automatiquement.
+        </p>
+      </div>
+
+      <div id="bundleContainer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     15 — PAYMENT / FINANCING
+========================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid lg:grid-cols-2 gap-16">
+
+      <div>
+        <div class="eyebrow">12 / Paiement</div>
+        <h2 class="section-title mt-5">Payez comme<br>vous préférez.</h2>
+
+        <div class="flex flex-wrap gap-2 mt-9">
+          <span class="payment-pill">Orange Money</span>
+          <span class="payment-pill">MTN MoMo</span>
+          <span class="payment-pill">Wave</span>
+          <span class="payment-pill">M-Pesa</span>
+          <span class="payment-pill">Visa</span>
+          <span class="payment-pill">Mastercard</span>
+        </div>
+      </div>
+
+      <div class="card p-7 md:p-10">
+        <div class="eyebrow">Simulateur</div>
+        <h3 class="display text-3xl mt-4">Combien par mois ?</h3>
+
+        <label class="block mt-8 text-sm">
+          Prix du téléphone
+          <input id="financePrice" type="number" value="299900"
+            oninput="calculateFinance()"
+            class="mt-2 w-full bg-transparent border-b border-[var(--line)] py-3 outline-none text-xl">
+        </label>
+
+        <label class="block mt-7 text-sm">
+          Apport
+          <input id="financeDeposit" type="number" value="59900"
+            oninput="calculateFinance()"
+            class="mt-2 w-full bg-transparent border-b border-[var(--line)] py-3 outline-none text-xl">
+        </label>
+
+        <label class="block mt-7 text-sm">
+          Durée
+          <select id="financeDuration" onchange="calculateFinance()"
+            class="mt-2 w-full bg-transparent border-b border-[var(--line)] py-3 outline-none text-xl">
+            <option value="3">3 mois</option>
+            <option value="6" selected>6 mois</option>
+            <option value="9">9 mois</option>
+            <option value="12">12 mois</option>
+          </select>
+        </label>
+
+        <div class="mt-10 pt-8 border-t border-[var(--line)]">
+          <div class="text-sm text-[var(--muted)]">Mensualité indicative</div>
+          <div id="monthlyPayment" class="display text-5xl font-bold mt-2">40 000 XAF</div>
+          <div class="text-xs text-[var(--muted)] mt-3">
+            Simulation indicative, hors conditions éventuelles du financement.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     16 — DELIVERY
+========================================================= -->
+<section class="section bg-[var(--deep)] text-white">
+  <div class="container">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5">
+        <div class="eyebrow">13 / Livraison</div>
+        <h2 class="section-title mt-5">Du stock jusqu'à votre porte.</h2>
+      </div>
+
+      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-3">
+        <div class="border border-white/15 p-7">
+          <i data-lucide="map-pin"></i>
+          <h3 class="display text-2xl mt-8">Douala</h3>
+          <p class="opacity-60 mt-3">Livraison locale selon zone.</p>
+        </div>
+
+        <div class="border border-white/15 p-7">
+          <i data-lucide="truck"></i>
+          <h3 class="display text-2xl mt-8">Yaoundé</h3>
+          <p class="opacity-60 mt-3">Expédition et suivi disponibles.</p>
+        </div>
+
+        <div class="border border-white/15 p-7">
+          <i data-lucide="shield-check"></i>
+          <h3 class="display text-2xl mt-8">Garantie</h3>
+          <p class="opacity-60 mt-3">Conditions indiquées sur chaque produit.</p>
+        </div>
+
+        <div class="border border-white/15 p-7">
+          <i data-lucide="rotate-ccw"></i>
+          <h3 class="display text-2xl mt-8">Retours</h3>
+          <p class="opacity-60 mt-3">Procédure claire avant validation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     17 — TRADE IN
+========================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid lg:grid-cols-[1fr_1fr] gap-14 items-center">
+      <div>
+        <div class="eyebrow">14 / Reprise</div>
+        <h2 class="section-title mt-5">Votre ancien téléphone<br>peut encore compter.</h2>
+        <p class="text-[var(--muted)] text-lg mt-7 max-w-xl">
+          Faites une première estimation. La valeur finale dépendra de
+          l'inspection physique de l'appareil.
+        </p>
+      </div>
+
+      <div class="card p-7 md:p-9">
+        <div class="grid sm:grid-cols-2 gap-3">
+          <select id="tradeBrand" class="border border-[var(--line)] p-4 bg-transparent">
+            <option>Apple</option>
+            <option>Samsung</option>
+            <option>Tecno</option>
+            <option>Infinix</option>
+            <option>itel</option>
+          </select>
+
+          <select id="tradeAge" class="border border-[var(--line)] p-4 bg-transparent">
+            <option value="1">Moins d'un an</option>
+            <option value=".8">1–2 ans</option>
+            <option value=".6">2–3 ans</option>
+            <option value=".4">Plus de 3 ans</option>
+          </select>
+
+          <select id="tradeCondition" class="border border-[var(--line)] p-4 bg-transparent">
+            <option value="1">Très bon état</option>
+            <option value=".8">Bon état</option>
+            <option value=".55">État correct</option>
+            <option value=".3">État abîmé</option>
+          </select>
+
+          <select id="tradeStorage" class="border border-[var(--line)] p-4 bg-transparent">
+            <option value="1">64 Go</option>
+            <option value="1.15">128 Go</option>
+            <option value="1.35">256 Go</option>
+            <option value="1.55">512 Go+</option>
+          </select>
+        </div>
+
+        <button onclick="estimateTrade()" class="btn btn-dark w-full mt-5">
+          Estimer mon téléphone
+        </button>
+
+        <div id="tradeResult" class="hidden mt-8 border-t border-[var(--line)] pt-7">
+          <div class="text-sm text-[var(--muted)]">Estimation indicative</div>
+          <div id="tradeValue" class="display text-5xl font-bold mt-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     18 — REVIEWS
+========================================================= -->
+<section class="section bg-[var(--paper-2)]">
+  <div class="container">
+    <div class="grid lg:grid-cols-[.6fr_1.4fr] gap-12">
+      <div>
+        <div class="eyebrow">15 / Avis</div>
+        <div class="number-large mt-10" data-counter="4.7">4.7</div>
+        <div class="flex gap-1 mt-5">
+          <span class="text-[var(--accent)]">★</span>
+          <span class="text-[var(--accent)]">★</span>
+          <span class="text-[var(--accent)]">★</span>
+          <span class="text-[var(--accent)]">★</span>
+          <span>★</span>
+        </div>
+        <p class="text-[var(--muted)] mt-5">
+          Des retours clients utiles, pas uniquement des compliments.
+        </p>
+      </div>
+
+      <div class="swiper reviewSwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <article class="card p-8 md:p-12">
+              <div class="flex justify-between">
+                <span class="badge">Achat vérifié</span>
+                <span class="text-[var(--accent)]">★★★★☆</span>
+              </div>
+              <p class="display text-2xl md:text-4xl leading-tight mt-12">
+                "Le téléphone est arrivé rapidement. J'aurais aimé plus d'informations
+                sur la garantie, mais le support WhatsApp a répondu dans la journée."
+              </p>
+              <div class="mt-10 text-sm">
+                <strong>Yannick</strong>
+                <span class="text-[var(--muted)]"> — Douala</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="card p-8 md:p-12">
+              <div class="flex justify-between">
+                <span class="badge">Achat vérifié</span>
+                <span class="text-[var(--accent)]">★★★★★</span>
+              </div>
+              <p class="display text-2xl md:text-4xl leading-tight mt-12">
+                "J'ai surtout apprécié de pouvoir payer par Mobile Money.
+                Le suivi de la livraison était simple."
+              </p>
+              <div class="mt-10 text-sm">
+                <strong>Aïcha</strong>
+                <span class="text-[var(--muted)]"> — Yaoundé</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="card p-8 md:p-12">
+              <div class="flex justify-between">
+                <span class="badge">Achat vérifié</span>
+                <span class="text-[var(--accent)]">★★★★☆</span>
+              </div>
+              <p class="display text-2xl md:text-4xl leading-tight mt-12">
+                "Bon rapport qualité-prix. La coque du pack est correcte,
+                mais j'aurais préféré avoir plusieurs couleurs."
+              </p>
+              <div class="mt-10 text-sm">
+                <strong>Mariama</strong>
+                <span class="text-[var(--muted)]"> — Dakar</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     19 — FAQ / NEWSLETTER
+========================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="grid lg:grid-cols-[1fr_1fr] gap-20">
+
+      <div>
+        <div class="eyebrow">16 / FAQ</div>
+        <h2 class="section-title mt-5">Les questions<br>qu'on pose avant<br>de payer.</h2>
+
+        <div class="mt-10">
+
+          <div class="faq border-t border-[var(--line)]">
+            <button onclick="toggleFaq(this)" class="w-full py-6 flex justify-between text-left">
+              <span class="font-semibold">Les produits sont-ils neufs ?</span>
+              <i data-lucide="plus"></i>
+            </button>
+            <div class="faq-answer">
+              Chaque fiche indique l'état du produit et les conditions applicables.
+            </div>
+          </div>
+
+          <div class="faq border-t border-[var(--line)]">
+            <button onclick="toggleFaq(this)" class="w-full py-6 flex justify-between text-left">
+              <span class="font-semibold">Puis-je payer avec Mobile Money ?</span>
+              <i data-lucide="plus"></i>
+            </button>
+            <div class="faq-answer">
+              Les moyens disponibles dépendent de la zone et sont indiqués au moment de la commande.
+            </div>
+          </div>
+
+          <div class="faq border-t border-[var(--line)]">
+            <button onclick="toggleFaq(this)" class="w-full py-6 flex justify-between text-left">
+              <span class="font-semibold">Comment fonctionne la garantie ?</span>
+              <i data-lucide="plus"></i>
+            </button>
+            <div class="faq-answer">
+              La durée et les exclusions sont précisées sur chaque fiche produit et dans les conditions de vente.
+            </div>
+          </div>
+
+          <div class="faq border-y border-[var(--line)]">
+            <button onclick="toggleFaq(this)" class="w-full py-6 flex justify-between text-left">
+              <span class="font-semibold">Livrez-vous hors de Douala ?</span>
+              <i data-lucide="plus"></i>
+            </button>
+            <div class="faq-answer">
+              Oui, les options disponibles varient selon la ville. Les délais sont communiqués avant confirmation.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-end">
+        <div class="card p-8 md:p-12 bg-[var(--deep)] text-white">
+          <div class="eyebrow">Conseils / Newsletter</div>
+          <h3 class="display text-4xl md:text-5xl mt-5">
+            Achetez avec<br>un peu plus<br>d'informations.
+          </h3>
+
+          <p class="opacity-60 mt-6">
+            Nouveautés, comparatifs et conseils pratiques. Pas de spam quotidien.
+          </p>
+
+          <form onsubmit="subscribe(event)" class="newsletter mt-8">
+            <div class="border-b border-white/30 flex">
+              <input id="newsletterEmail"
+                type="email"
+                required
+                placeholder="Votre adresse email"
+                class="py-4 text-white placeholder:text-white/40" />
+              <button class="min-w-[50px]" aria-label="S'inscrire">
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+            <div id="newsletterMessage" class="text-sm mt-4"></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- =========================================================
+     20 — FOOTER
+========================================================= -->
+<footer class="bg-[var(--ink)] text-[var(--paper)]">
+  <div class="container py-20">
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+
+      <div class="lg:col-span-2">
+        <div class="display text-4xl font-bold">
+          MH<span class="text-[var(--accent)]">.</span>
+        </div>
+
+        <p class="text-white/50 max-w-sm mt-6 leading-relaxed">
+          Smartphones, gadgets et accessoires numériques sélectionnés
+          pour l'Afrique.
+        </p>
+
+        <a href="https://wa.me/237690000000"
+          target="_blank"
+          class="inline-flex items-center gap-2 mt-7 border border-white/20 px-5 py-3">
+          <i data-lucide="message-circle" size="17"></i>
+          WhatsApp
+        </a>
+      </div>
+
+      <div>
+        <div class="text-xs uppercase tracking-[.18em] opacity-40 mb-6">Boutique</div>
+        <div class="space-y-4 text-sm opacity-75">
+          <a href="#shop" class="block hover:text-[var(--accent)]">Smartphones</a>
+          <a href="#gadgets" class="block hover:text-[var(--accent)]">Gadgets</a>
+          <a href="#accessories" class="block hover:text-[var(--accent)]">Accessoires</a>
+          <a href="#deals" class="block hover:text-[var(--accent)]">Offres</a>
+          <a href="#shop" class="block hover:text-[var(--accent)]">Nouveautés</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="text-xs uppercase tracking-[.18em] opacity-40 mb-6">Service</div>
+        <div class="space-y-4 text-sm opacity-75">
+          <a href="#" class="block">Livraison</a>
+          <a href="#" class="block">Garantie</a>
+          <a href="#" class="block">Retours</a>
+          <a href="#" class="block">Suivi commande</a>
+          <a href="#" class="block">Contact</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/10 mt-16 pt-7 flex flex-col md:flex-row justify-between gap-5 text-xs opacity-45">
+      <div>© 2026 MHSHOP. Tous droits réservés.</div>
+      <div class="flex gap-5">
+        <span>Facebook</span>
+        <span>Instagram</span>
+        <span>TikTok</span>
+        <span>WhatsApp</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================================================
+     MOBILE BOTTOM NAV
+========================================================= -->
+<nav class="mobile-nav">
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i data-lucide="house" size="18"></i>
+    <span>Accueil</span>
+  </button>
+
+  <button onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">
+    <i data-lucide="grid-2x2" size="18"></i>
+    <span>Catégories</span>
+  </button>
+
+  <button onclick="openSearch()">
+    <i data-lucide="search" size="18"></i>
+    <span>Recherche</span>
+  </button>
+
+  <button onclick="openFavorites()">
+    <i data-lucide="heart" size="18"></i>
+    <span>Favoris</span>
+  </button>
+
+  <button onclick="openCart()">
+    <i data-lucide="shopping-bag" size="18"></i>
+    <span>Panier</span>
+  </button>
+</nav>
+
+<!-- =========================================================
+     CART DRAWER
+========================================================= -->
+<div id="cartDrawer" class="drawer">
+
+  <div class="p-6 border-b border-[var(--line)] flex justify-between items-center">
+    <div>
+      <div class="eyebrow">Votre sélection</div>
+      <h2 class="display text-2xl mt-1">Panier</h2>
+    </div>
+    <button onclick="closeCart()" class="min-w-[44px] min-h-[44px] grid place-items-center">
+      <i data-lucide="x"></i>
+    </button>
+  </div>
+
+  <div id="cartItems" class="drawer-body p-5"></div>
+
+  <div class="border-t border-[var(--line)] p-5">
+    <div class="flex gap-2">
+      <input id="promoInput"
+        placeholder="Code promo"
+        class="flex-1 bg-transparent border border-[var(--line)] px-4 py-3 outline-none" />
+      <button onclick="applyPromo()" class="btn btn-outline">OK</button>
+    </div>
+
+    <div class="flex justify-between mt-5 text-sm">
+      <span>Sous-total</span>
+      <strong id="cartSubtotal">0 XAF</strong>
+    </div>
+
+    <div class="flex justify-between mt-2 text-sm">
+      <span>Livraison</span>
+      <strong id="cartShipping">—</strong>
+    </div>
+
+    <div class="flex justify-between mt-5 pt-5 border-t border-[var(--line)]">
+      <span>Total</span>
+      <strong id="cartTotal" class="display text-2xl">0 XAF</strong>
+    </div>
+
+    <button onclick="openCheckout()" class="btn btn-dark w-full mt-5">
+      Passer commande
+      <i data-lucide="arrow-right" size="17"></i>
+    </button>
+
+    <button onclick="orderWhatsApp()" class="w-full py-4 mt-2 text-sm font-semibold text-[var(--success)]">
+      Commander via WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- =========================================================
+     QUICK VIEW MODAL
+========================================================= -->
+<div id="quickModal" class="modal-bg" onclick="if(event.target===this)closeQuickView()">
+  <div class="modal">
+    <div class="flex justify-end p-4">
+      <button onclick="closeQuickView()" class="min-w-[44px] min-h-[44px]">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div id="quickContent" class="p-5 md:p-10 pt-0"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     CHECKOUT MODAL
+========================================================= -->
+<div id="checkoutModal" class="modal-bg">
+  <div class="modal">
+
+    <div class="p-6 border-b border-[var(--line)] flex justify-between">
+      <div>
+        <div class="eyebrow">Commande</div>
+        <h2 class="display text-3xl mt-2">Finaliser</h2>
+      </div>
+      <button onclick="closeCheckout()" class="min-w-[44px] min-h-[44px]">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="p-6 md:p-10">
+
+      <div class="flex justify-between max-w-xl mx-auto mb-12">
+        <div class="text-center">
+          <div id="step1" class="checkout-step active">1</div>
+          <div class="text-xs mt-2">Infos</div>
+        </div>
+        <div class="h-px bg-[var(--line)] flex-1 mt-5 mx-3"></div>
+        <div class="text-center">
+          <div id="step2" class="checkout-step">2</div>
+          <div class="text-xs mt-2">Livraison</div>
+        </div>
+        <div class="h-px bg-[var(--line)] flex-1 mt-5 mx-3"></div>
+        <div class="text-center">
+          <div id="step3" class="checkout-step">3</div>
+          <div class="text-xs mt-2">Paiement</div>
+        </div>
+        <div class="h-px bg-[var(--line)] flex-1 mt-5 mx-3"></div>
+        <div class="text-center">
+          <div id="step4" class="checkout-step">4</div>
+          <div class="text-xs mt-2">Terminé</div>
+        </div>
+      </div>
+
+      <form id="checkoutForm" onsubmit="nextCheckout(event)">
+
+        <div id="checkoutStep1">
+          <h3 class="display text-2xl mb-7">Vos informations</h3>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input required name="name" placeholder="Nom complet"
+              class="border border-[var(--line)] bg-transparent p-4 outline-none">
+
+            <input required name="phone" placeholder="Téléphone"
+              class="border border-[var(--line)] bg-transparent p-4 outline-none">
+
+            <input required type="email" name="email" placeholder="Email"
+              class="border border-[var(--line)] bg-transparent p-4 outline-none sm:col-span-2">
+          </div>
+
+          <button class="btn btn-dark mt-7 w-full">
+            Continuer
+          </button>
+        </div>
+
+        <div id="checkoutStep2" class="hidden">
+          <h3 class="display text-2xl mb-7">Livraison</h3>
+
+          <select required name="city"
+            class="w-full border border-[var(--line)] bg-transparent p-4 mb-4">
+            <option value="">Choisir une ville</option>
+            <option>Douala</option>
+            <option>Yaoundé</option>
+            <option>Abidjan</option>
+            <option>Dakar</option>
+            <option>Libreville</option>
+            <option>Kinshasa</option>
+            <option>Lagos</option>
+            <option>Accra</option>
+          </select>
+
+          <input required name="address" placeholder="Adresse / point de repère"
+            class="w-full border border-[var(--line)] bg-transparent p-4">
+
+          <button class="btn btn-dark mt-7 w-full">
+            Continuer
+          </button>
+        </div>
+
+        <div id="checkoutStep3" class="hidden">
+          <h3 class="display text-2xl mb-7">Mode de paiement</h3>
+
+          <div class="space-y-3">
+            <label class="border border-[var(--line)] p-5 flex gap-3">
+              <input required type="radio" name="payment" value="Orange Money">
+              <span>Orange Money</span>
+            </label>
+
+            <label class="border border-[var(--line)] p-5 flex gap-3">
+              <input type="radio" name="payment" value="MTN MoMo">
+              <span>MTN MoMo</span>
+            </label>
+
+            <label class="border border-[var(--line)] p-5 flex gap-3">
+              <input type="radio" name="payment" value="Carte">
+              <span>Carte bancaire</span>
+            </label>
+
+            <label class="border border-[var(--line)] p-5 flex gap-3">
+              <input type="radio" name="payment" value="Paiement livraison">
+              <span>Paiement à la livraison</span>
+            </label>
+          </div>
+
+          <button class="btn btn-dark mt-7 w-full">
+            Confirmer la commande
+          </button>
+        </div>
+
+        <div id="checkoutStep4" class="hidden text-center py-12">
+          <div class="w-16 h-16 bg-[var(--success)] text-white grid place-items-center mx-auto">
+            <i data-lucide="check"></i>
+          </div>
+
+          <h3 class="display text-4xl mt-7">Commande reçue.</h3>
+
+          <p class="text-[var(--muted)] mt-4 max-w-md mx-auto">
+            Ceci est une simulation front-end. Pour une commande réelle,
+            utilisez le bouton WhatsApp.
+          </p>
+
+          <button type="button" onclick="closeCheckout()" class="btn btn-dark mt-7">
+            Fermer
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+<div id="toast" class="toast">
+  <div class="flex gap-3 items-center">
+    <i id="toastIcon" data-lucide="check-circle" size="18"></i>
+    <span id="toastText"></span>
+  </div>
+</div>
+
+<!-- =========================================================
+     WHATSAPP
+========================================================= -->
+<a href="https://wa.me/237690000000"
+   target="_blank"
+   class="floating-whatsapp"
+   aria-label="WhatsApp">
+  <i data-lucide="message-circle"></i>
+</a>
+
+<script>
+/* =========================================================
+   CONFIGURATION CENTRALE
+========================================================= */
+
+const CONFIG = {
+  storeName: "MHSHOP",
+  whatsapp: "237690000000",
+
+  currency: "XAF",
+
+  exchangeRates: {
+    XAF: 1,
+    USD: 1 / 600,
+    EUR: 1 / 655,
+    NGN: 2.4
+  },
+
+  images: {
+    placeholder: null
+  },
+
+  promoCodes: {
+    MH10: .10,
+    TECH5: .05
+  }
+};
+
+
+/* =========================================================
+   PRODUCT DATABASE
+========================================================= */
+
+const PRODUCTS = [
+  {
+    id: 1,
+    brand: "Apple",
+    model: "iPhone 15",
+    category: "Smartphones",
+    price: 459900,
+    oldPrice: 489900,
+    stock: 8,
+    rating: 4.8,
+    reviews: 47,
+    ram: 6,
+    storage: 128,
+    battery: 3349,
+    camera: "48 MP",
+    network: "5G",
+    colors: ["Noir", "Bleu"],
+    badge: "Populaire",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 2,
+    brand: "Apple",
+    model: "iPhone 15 Pro",
+    category: "Smartphones",
+    price: 699900,
+    oldPrice: 739900,
+    stock: 5,
+    rating: 4.9,
+    reviews: 38,
+    ram: 8,
+    storage: 256,
+    battery: 3274,
+    camera: "48 MP",
+    network: "5G",
+    colors: ["Titane"],
+    badge: "Pro",
+    featured: true,
+    isNew: true
+  },
+  {
+    id: 3,
+    brand: "Apple",
+    model: "iPhone 16",
+    category: "Smartphones",
+    price: 589900,
+    oldPrice: 619900,
+    stock: 7,
+    rating: 4.8,
+    reviews: 21,
+    ram: 8,
+    storage: 128,
+    battery: 3561,
+    camera: "48 MP",
+    network: "5G",
+    colors: ["Noir", "Bleu"],
+    badge: "Nouveau",
+    featured: true,
+    isNew: true
+  },
+  {
+    id: 4,
+    brand: "Samsung",
+    model: "Galaxy S24",
+    category: "Smartphones",
+    price: 529900,
+    oldPrice: 569900,
+    stock: 6,
+    rating: 4.8,
+    reviews: 32,
+    ram: 8,
+    storage: 256,
+    battery: 4000,
+    camera: "50 MP",
+    network: "5G",
+    colors: ["Noir", "Gris"],
+    badge: "5G",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 5,
+    brand: "Samsung",
+    model: "Galaxy A56 5G",
+    category: "Smartphones",
+    price: 259900,
+    oldPrice: 289900,
+    stock: 12,
+    rating: 4.7,
+    reviews: 26,
+    ram: 8,
+    storage: 256,
+    battery: 5000,
+    camera: "50 MP",
+    network: "5G",
+    colors: ["Noir", "Vert"],
+    badge: "Best seller",
+    featured: true,
+    isNew: true
+  },
+  {
+    id: 6,
+    brand: "Samsung",
+    model: "Galaxy A16",
+    category: "Smartphones",
+    price: 89900,
+    oldPrice: 99900,
+    stock: 19,
+    rating: 4.4,
+    reviews: 51,
+    ram: 4,
+    storage: 128,
+    battery: 5000,
+    camera: "50 MP",
+    network: "4G",
+    colors: ["Noir"],
+    badge: "Budget",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 7,
+    brand: "Tecno",
+    model: "Camon 30",
+    category: "Smartphones",
+    price: 169900,
+    oldPrice: 184900,
+    stock: 11,
+    rating: 4.6,
+    reviews: 29,
+    ram: 8,
+    storage: 256,
+    battery: 5000,
+    camera: "50 MP",
+    network: "4G",
+    colors: ["Noir", "Blanc"],
+    badge: "Photo",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 8,
+    brand: "Tecno",
+    model: "Camon 40 Pro 5G",
+    category: "Smartphones",
+    price: 239900,
+    oldPrice: 259900,
+    stock: 9,
+    rating: 4.7,
+    reviews: 17,
+    ram: 8,
+    storage: 256,
+    battery: 5200,
+    camera: "50 MP",
+    network: "5G",
+    colors: ["Vert"],
+    badge: "Nouveau",
+    featured: true,
+    isNew: true
+  },
+  {
+    id: 9,
+    brand: "Tecno",
+    model: "Spark 30",
+    category: "Smartphones",
+    price: 99900,
+    oldPrice: 109900,
+    stock: 18,
+    rating: 4.4,
+    reviews: 35,
+    ram: 4,
+    storage: 128,
+    battery: 5000,
+    camera: "50 MP",
+    network: "4G",
+    colors: ["Noir"],
+    badge: "Budget",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 10,
+    brand: "Infinix",
+    model: "Note 40",
+    category: "Smartphones",
+    price: 139900,
+    oldPrice: 154900,
+    stock: 14,
+    rating: 4.5,
+    reviews: 43,
+    ram: 8,
+    storage: 256,
+    battery: 5000,
+    camera: "108 MP",
+    network: "4G",
+    colors: ["Noir"],
+    badge: "Value",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 11,
+    brand: "Infinix",
+    model: "Hot 50 Pro",
+    category: "Smartphones",
+    price: 119900,
+    oldPrice: 129900,
+    stock: 16,
+    rating: 4.5,
+    reviews: 24,
+    ram: 8,
+    storage: 128,
+    battery: 5000,
+    camera: "50 MP",
+    network: "4G",
+    colors: ["Noir", "Bleu"],
+    badge: "Value",
+    featured: false,
+    isNew: true
+  },
+  {
+    id: 12,
+    brand: "Infinix",
+    model: "GT 20 Pro",
+    category: "Smartphones",
+    price: 229900,
+    oldPrice: 249900,
+    stock: 8,
+    rating: 4.7,
+    reviews: 31,
+    ram: 12,
+    storage: 256,
+    battery: 5000,
+    camera: "108 MP",
+    network: "5G",
+    colors: ["Gris"],
+    badge: "Gaming",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 13,
+    brand: "itel",
+    model: "A70",
+    category: "Smartphones",
+    price: 54900,
+    oldPrice: 59900,
+    stock: 24,
+    rating: 4.2,
+    reviews: 63,
+    ram: 4,
+    storage: 128,
+    battery: 5000,
+    camera: "13 MP",
+    network: "4G",
+    colors: ["Noir"],
+    badge: "Petit budget",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 14,
+    brand: "itel",
+    model: "S25",
+    category: "Smartphones",
+    price: 74900,
+    oldPrice: 79900,
+    stock: 17,
+    rating: 4.3,
+    reviews: 29,
+    ram: 8,
+    storage: 128,
+    battery: 5000,
+    camera: "50 MP",
+    network: "4G",
+    colors: ["Noir"],
+    badge: "Budget",
+    featured: false,
+    isNew: true
+  },
+  {
+    id: 15,
+    brand: "Samsung",
+    model: "Galaxy Buds FE",
+    category: "Audio",
+    price: 64900,
+    oldPrice: 74900,
+    stock: 14,
+    rating: 4.7,
+    reviews: 19,
+    ram: 0,
+    storage: 0,
+    battery: 30,
+    camera: "-",
+    network: "Bluetooth",
+    colors: ["Noir"],
+    badge: "Audio",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 16,
+    brand: "Anker",
+    model: "Soundcore Q20i",
+    category: "Audio",
+    price: 54900,
+    oldPrice: 64900,
+    stock: 10,
+    rating: 4.6,
+    reviews: 27,
+    ram: 0,
+    storage: 0,
+    battery: 40,
+    camera: "-",
+    network: "Bluetooth",
+    colors: ["Noir"],
+    badge: "Audio",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 17,
+    brand: "JBL",
+    model: "Flip 6",
+    category: "Audio",
+    price: 79900,
+    oldPrice: 89900,
+    stock: 8,
+    rating: 4.8,
+    reviews: 44,
+    ram: 0,
+    storage: 0,
+    battery: 12,
+    camera: "-",
+    network: "Bluetooth",
+    colors: ["Noir"],
+    badge: "JBL",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 18,
+    brand: "Anker",
+    model: "PowerCore 20K",
+    category: "Power",
+    price: 39900,
+    oldPrice: 44900,
+    stock: 23,
+    rating: 4.7,
+    reviews: 55,
+    ram: 0,
+    storage: 20000,
+    battery: 20000,
+    camera: "-",
+    network: "USB-C",
+    colors: ["Noir"],
+    badge: "Power",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 19,
+    brand: "Samsung",
+    model: "25W Fast Charger",
+    category: "Charge",
+    price: 16900,
+    oldPrice: 19900,
+    stock: 32,
+    rating: 4.6,
+    reviews: 48,
+    ram: 0,
+    storage: 0,
+    battery: 25,
+    camera: "-",
+    network: "USB-C",
+    colors: ["Blanc"],
+    badge: "Charge",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 20,
+    brand: "Apple",
+    model: "USB-C 20W Charger",
+    category: "Charge",
+    price: 21900,
+    oldPrice: 24900,
+    stock: 28,
+    rating: 4.7,
+    reviews: 37,
+    ram: 0,
+    storage: 0,
+    battery: 20,
+    camera: "-",
+    network: "USB-C",
+    colors: ["Blanc"],
+    badge: "Apple",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 21,
+    brand: "MH",
+    model: "Coque Silicone Premium",
+    category: "Protection",
+    price: 7900,
+    oldPrice: 9900,
+    stock: 60,
+    rating: 4.4,
+    reviews: 22,
+    ram: 0,
+    storage: 0,
+    battery: 0,
+    camera: "-",
+    network: "-",
+    colors: ["Noir"],
+    badge: "Protection",
+    featured: false,
+    isNew: true
+  },
+  {
+    id: 22,
+    brand: "MH",
+    model: "Verre trempé 9H",
+    category: "Protection",
+    price: 4900,
+    oldPrice: 6900,
+    stock: 80,
+    rating: 4.3,
+    reviews: 67,
+    ram: 0,
+    storage: 0,
+    battery: 0,
+    camera: "-",
+    network: "-",
+    colors: ["Transparent"],
+    badge: "Protection",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 23,
+    brand: "Anker",
+    model: "USB-C Cable 100W",
+    category: "Câbles",
+    price: 9900,
+    oldPrice: 11900,
+    stock: 42,
+    rating: 4.7,
+    reviews: 35,
+    ram: 0,
+    storage: 0,
+    battery: 100,
+    camera: "-",
+    network: "USB-C",
+    colors: ["Noir"],
+    badge: "100W",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 24,
+    brand: "Oraimo",
+    model: "Watch 5 Lite",
+    category: "Gadgets",
+    price: 34900,
+    oldPrice: 39900,
+    stock: 15,
+    rating: 4.5,
+    reviews: 18,
+    ram: 0,
+    storage: 0,
+    battery: 7,
+    camera: "-",
+    network: "Bluetooth",
+    colors: ["Noir"],
+    badge: "Wearable",
+    featured: false,
+    isNew: true
+  },
+  {
+    id: 25,
+    brand: "Xiaomi",
+    model: "TV Box S 2nd Gen",
+    category: "Gadgets",
+    price: 44900,
+    oldPrice: 49900,
+    stock: 11,
+    rating: 4.6,
+    reviews: 25,
+    ram: 2,
+    storage: 8,
+    battery: 0,
+    camera: "-",
+    network: "Wi-Fi",
+    colors: ["Noir"],
+    badge: "TV",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 26,
+    brand: "TP-Link",
+    model: "4G LTE Router",
+    category: "Gadgets",
+    price: 69900,
+    oldPrice: 79900,
+    stock: 9,
+    rating: 4.5,
+    reviews: 15,
+    ram: 0,
+    storage: 0,
+    battery: 0,
+    camera: "-",
+    network: "4G",
+    colors: ["Blanc"],
+    badge: "4G",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 27,
+    brand: "JBL",
+    model: "Tune 520BT",
+    category: "Audio",
+    price: 29900,
+    oldPrice: 34900,
+    stock: 18,
+    rating: 4.5,
+    reviews: 40,
+    ram: 0,
+    storage: 0,
+    battery: 57,
+    camera: "-",
+    network: "Bluetooth",
+    colors: ["Noir"],
+    badge: "Audio",
+    featured: false,
+    isNew: false
+  },
+  {
+    id: 28,
+    brand: "Anker",
+    model: "Nano Power Bank 10K",
+    category: "Power",
+    price: 32900,
+    oldPrice: 37900,
+    stock: 13,
+    rating: 4.7,
+    reviews: 21,
+    ram: 0,
+    storage: 10000,
+    battery: 10000,
+    camera: "-",
+    network: "USB-C",
+    colors: ["Noir"],
+    badge: "Compact",
+    featured: false,
+    isNew: true
+  },
+  {
+    id: 29,
+    brand: "Tecno",
+    model: "Phantom V Flip",
+    category: "Smartphones",
+    price: 399900,
+    oldPrice: 449900,
+    stock: 4,
+    rating: 4.6,
+    reviews: 12,
+    ram: 8,
+    storage: 256,
+    battery: 4000,
+    camera: "64 MP",
+    network: "5G",
+    colors: ["Noir"],
+    badge: "Foldable",
+    featured: true,
+    isNew: false
+  },
+  {
+    id: 30,
+    brand: "Infinix",
+    model: "Zero 40 5G",
+    category: "Smartphones",
+    price: 219900,
+    oldPrice: 239900,
+    stock: 7,
+    rating: 4.6,
+    reviews: 16,
+    ram: 12,
+    storage: 256,
+    battery: 5000,
+    camera: "108 MP",
+    network: "5G",
+    colors: ["Noir"],
+    badge: "5G",
+    featured: true,
+    isNew: true
+  }
+];
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let cart = [];
+let favorites = [];
+let currentCurrency = "XAF";
+let promoDiscount = 0;
+let catalogLimit = 9;
+let checkoutStep = 1;
+let comparisonChart = null;
+
+try {
+  cart = JSON.parse(localStorage.getItem("mhshop_cart")) || [];
+  favorites = JSON.parse(localStorage.getItem("mhshop_favorites")) || [];
+  currentCurrency = localStorage.getItem("mhshop_currency") || "XAF";
+} catch (error) {
+  cart = [];
+  favorites = [];
+}
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function formatPrice(value) {
+  const amount = Number(value) * CONFIG.exchangeRates[currentCurrency];
+
+  const decimals = currentCurrency === "XAF" || currentCurrency === "NGN" ? 0 : 2;
+
+  return new Intl.NumberFormat(
+    currentCurrency === "XAF" ? "fr-FR" : "en-US",
+    {
+      maximumFractionDigits: decimals,
+      minimumFractionDigits: decimals
+    }
+  ).format(amount) + " " + currentCurrency;
+}
+
+function saveState() {
+  try {
+    localStorage.setItem("mhshop_cart", JSON.stringify(cart));
+    localStorage.setItem("mhshop_favorites", JSON.stringify(favorites));
+    localStorage.setItem("mhshop_currency", currentCurrency);
+  } catch (error) {
+    console.warn("LocalStorage indisponible.");
+  }
+}
+
+function productById(id) {
+  return PRODUCTS.find(p => p.id === Number(id));
+}
+
+function placeholderProduct(product) {
+  const dark = ["Apple", "Samsung"].includes(product.brand);
+
+  return `
+    <div class="product-visual ${dark ? 'bg-[#20231f]' : ''}">
+      <div class="phone">
+        <div class="camera-dot camera-1"></div>
+        <div class="camera-dot camera-2"></div>
+        <div class="camera-dot camera-3"></div>
+      </div>
+
+      <div class="absolute bottom-5 left-5 text-xs tracking-[.18em] uppercase opacity-50">
+        ${product.brand}
+      </div>
+    </div>
+  `;
+}
+
+function productCard(product) {
+  const isFav = favorites.includes(product.id);
+
+  return `
+    <article class="product-card card" data-id="${product.id}">
+      <button
+        onclick="toggleFavorite(${product.id})"
+        class="wishlist ${isFav ? 'active' : ''}"
+        aria-label="Ajouter aux favoris">
+        <i data-lucide="${isFav ? 'heart' : 'heart'}" size="18"></i>
+      </button>
+
+      ${placeholderProduct(product)}
+
+      <div class="product-info">
+        <div class="flex justify-between gap-3">
+          <div>
+            <div class="text-[10px] uppercase tracking-[.16em] text-[var(--muted)]">
+              ${product.brand}
+            </div>
+
+            <h3 class="display text-lg font-semibold mt-1">
+              ${product.model}
+            </h3>
+          </div>
+
+          ${product.badge ? `<span class="badge">${product.badge}</span>` : ""}
+        </div>
+
+        <div class="flex gap-2 mt-5 text-xs text-[var(--muted)]">
+          <span>${product.ram ? product.ram + " Go RAM" : product.network}</span>
+          ${product.storage ? `<span>•</span><span>${product.storage} Go</span>` : ""}
+          ${product.network !== "Bluetooth" && product.network !== "-" ? `<span>•</span><span>${product.network}</span>` : ""}
+        </div>
+
+        <div class="flex justify-between items-end mt-6">
+          <div>
+            <div class="font-bold text-lg">${formatPrice(product.price)}</div>
+            ${product.oldPrice ? `
+              <div class="text-xs text-[var(--muted)] line-through">
+                ${formatPrice(product.oldPrice)}
+              </div>
+            ` : ""}
+          </div>
+
+          <div class="text-right text-xs">
+            <div class="text-[var(--accent)]">★ ${product.rating}</div>
+            <div class="text-[var(--muted)]">${product.reviews} avis</div>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-5">
+          <button onclick="addToCart(${product.id})"
+            class="btn btn-dark flex-1 text-xs">
+            Ajouter
+          </button>
+
+          <button onclick="openQuickView(${product.id})"
+            class="btn btn-outline px-4"
+            aria-label="Voir le produit">
+            <i data-lucide="eye" size="16"></i>
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+
+/* =========================================================
+   FEATURED
+========================================================= */
+
+function renderFeatured() {
+  const products = PRODUCTS.filter(p => p.featured).slice(0, 8);
+
+  document.getElementById("featuredGrid").innerHTML =
+    products.map(productCard).join("");
+
+  lucide.createIcons();
+}
+
+
+/* =========================================================
+   CATALOG
+========================================================= */
+
+function renderCatalog() {
+  const search = document.getElementById("catalogSearch").value.toLowerCase();
+  const brand = document.getElementById("brandFilter").value;
+  const network = document.getElementById("networkFilter").value;
+  const ram = document.getElementById("ramFilter").value;
+  const price = Number(document.getElementById("priceFilter").value);
+  const sort = document.getElementById("sortSelect").value;
+
+  let products = PRODUCTS.filter(product => {
+
+    const matchesSearch =
+      !search ||
+      `${product.brand} ${product.model} ${product.category}`
+        .toLowerCase()
+        .includes(search);
+
+    const matchesBrand = !brand || product.brand === brand;
+    const matchesNetwork = !network || product.network === network;
+    const matchesRam = !ram || product.ram === Number(ram);
+    const matchesPrice = product.price <= price;
+
+    return matchesSearch &&
+      matchesBrand &&
+      matchesNetwork &&
+      matchesRam &&
+      matchesPrice;
+  });
+
+  if (sort === "priceAsc") {
+    products.sort((a,b) => a.price - b.price);
+  }
+
+  if (sort === "priceDesc") {
+    products.sort((a,b) => b.price - a.price);
+  }
+
+  if (sort === "rating") {
+    products.sort((a,b) => b.rating - a.rating);
+  }
+
+  if (sort === "new") {
+    products.sort((a,b) => Number(b.isNew) - Number(a.isNew));
+  }
+
+  document.getElementById("productResultCount").textContent =
+    `${products.length} produits`;
+
+  const visible = products.slice(0, catalogLimit);
+
+  document.getElementById("catalogGrid").innerHTML =
+    visible.length
+      ? visible.map(productCard).join("")
+      : `<div class="empty col-span-full">
+           <i data-lucide="search-x" class="mx-auto opacity-40"></i>
+           <p class="mt-4 text-[var(--muted)]">Aucun produit ne correspond à ces critères.</p>
+         </div>`;
+
+  document.getElementById("loadMoreBtn").style.display =
+    visible.length < products.length ? "inline-flex" : "none";
+
+  lucide.createIcons();
+}
+
+function loadMore() {
+  catalogLimit += 6;
+  renderCatalog();
+}
+
+function resetFilters() {
+  document.getElementById("catalogSearch").value = "";
+  document.getElementById("brandFilter").value = "";
+  document.getElementById("networkFilter").value = "";
+  document.getElementById("ramFilter").value = "";
+  document.getElementById("priceFilter").value = 1000000;
+  document.getElementById("priceLabel").textContent = "1 000 000 XAF";
+  catalogLimit = 9;
+  renderCatalog();
+}
+
+function filterCategory(category) {
+  setTimeout(() => {
+    document.getElementById("catalogSearch").value = category === "Smartphones" ? "" : category;
+    renderCatalog();
+  }, 100);
+}
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+function addToCart(id) {
+  const product = productById(id);
+  const existing = cart.find(item => item.id === id);
+
+  if (existing) {
+    if (existing.qty < product.stock) {
+      existing.qty++;
+    } else {
+      toast("Stock maximum atteint.", "warning");
+      return;
+    }
+  } else {
+    cart.push({
+      id,
+      qty: 1
+    });
+  }
+
+  saveState();
+  updateCartUI();
+  toast(`${product.brand} ${product.model} ajouté au panier.`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  saveState();
+  updateCartUI();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(i => i.id === id);
+  const product = productById(id);
+
+  if (!item) return;
+
+  item.qty += delta;
+
+  if (item.qty <= 0) {
+    removeFromCart(id);
+    return;
+  }
+
+  if (item.qty > product.stock) {
+    item.qty = product.stock;
+    toast("Quantité maximale disponible.", "warning");
+  }
+
+  saveState();
+  updateCartUI();
+}
+
+function cartSubtotal() {
+  return cart.reduce((sum, item) => {
+    const product = productById(item.id);
+    return sum + product.price * item.qty;
+  }, 0);
+}
+
+function updateCartUI() {
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+
+  const badge = document.getElementById("cartCount");
+  badge.textContent = count;
+  badge.style.display = count ? "grid" : "none";
+
+  const subtotal = cartSubtotal();
+  const discount = subtotal * promoDiscount;
+  const total = Math.max(0, subtotal - discount);
+
+  document.getElementById("cartSubtotal").textContent = formatPrice(subtotal);
+  document.getElementById("cartTotal").textContent = formatPrice(total);
+  document.getElementById("cartShipping").textContent =
+    subtotal >= 250000 ? "Offerte" : "Selon destination";
+
+  const container = document.getElementById("cartItems");
+
+  if (!cart.length) {
+    container.innerHTML = `
+      <div class="empty mt-5">
+        <i data-lucide="shopping-bag" class="mx-auto opacity-40"></i>
+        <h3 class="display text-xl mt-5">Votre panier est vide.</h3>
+        <p class="text-sm text-[var(--muted)] mt-2">
+          Ajoutez un appareil ou un accessoire.
+        </p>
+      </div>
+    `;
+
+    lucide.createIcons();
+    return;
+  }
+
+  container.innerHTML = cart.map(item => {
+    const product = productById(item.id);
+
+    return `
+      <div class="border-b border-[var(--line)] py-5 flex gap-4">
+        <div class="w-24 h-28 shrink-0">
+          ${placeholderProduct(product)}
+        </div>
+
+        <div class="flex-1">
+          <div class="text-[10px] uppercase tracking-[.15em] text-[var(--muted)]">
+            ${product.brand}
+          </div>
+
+          <div class="font-semibold mt-1">
+            ${product.model}
+          </div>
+
+          <div class="font-bold mt-2">
+            ${formatPrice(product.price)}
+          </div>
+
+          <div class="flex items-center gap-3 mt-4">
+            <button onclick="changeQty(${product.id},-1)"
+              class="w-8 h-8 border border-[var(--line)]">−</button>
+
+            <span>${item.qty}</span>
+
+            <button onclick="changeQty(${product.id},1)"
+              class="w-8 h-8 border border-[var(--line)]">+</button>
+
+            <button onclick="removeFromCart(${product.id})"
+              class="ml-auto text-[var(--danger)]">
+              <i data-lucide="trash-2" size="16"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  lucide.createIcons();
+}
+
+function openCart() {
+  document.getElementById("cartDrawer").classList.add("open");
+}
+
+function closeCart() {
+  document.getElementById("cartDrawer").classList.remove("open");
+}
+
+function applyPromo() {
+  const code = document.getElementById("promoInput").value.trim().toUpperCase();
+
+  if (CONFIG.promoCodes[code]) {
+    promoDiscount = CONFIG.promoCodes[code];
+    updateCartUI();
+    toast(`Code ${code} appliqué.`);
+  } else {
+    toast("Code promo non reconnu.", "error");
+  }
+}
+
+
+/* =========================================================
+   FAVORITES
+========================================================= */
+
+function toggleFavorite(id) {
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(item => item !== id);
+    toast("Retiré des favoris.");
+  } else {
+    favorites.push(id);
+    toast("Ajouté aux favoris.");
+  }
+
+  saveState();
+  updateFavoriteCount();
+  renderFeatured();
+  renderCatalog();
+}
+
+function updateFavoriteCount() {
+  const badge = document.getElementById("favCount");
+
+  badge.textContent = favorites.length;
+  badge.style.display = favorites.length ? "grid" : "none";
+}
+
+function openFavorites() {
+  const products = PRODUCTS.filter(p => favorites.includes(p.id));
+
+  if (!products.length) {
+    toast("Votre liste de favoris est vide.");
+    return;
+  }
+
+  document.getElementById("catalogSearch").value = "";
+  document.getElementById("catalogGrid").innerHTML =
+    products.map(productCard).join("");
+
+  document.getElementById("productResultCount").textContent =
+    `${products.length} favoris`;
+
+  document.getElementById("shop").scrollIntoView({
+    behavior: "smooth"
+  });
+
+  lucide.createIcons();
+}
+
+
+/* =========================================================
+   QUICK VIEW
+========================================================= */
+
+function openQuickView(id) {
+  const product = productById(id);
+
+  document.getElementById("quickContent").innerHTML = `
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        ${placeholderProduct(product)}
+      </div>
+
+      <div>
+        <div class="eyebrow">${product.brand}</div>
+
+        <h2 class="display text-4xl md:text-5xl mt-3">
+          ${product.model}
+        </h2>
+
+        <div class="flex gap-3 mt-5">
+          <span class="text-[var(--accent)]">★ ${product.rating}</span>
+          <span class="text-[var(--muted)]">${product.reviews} avis</span>
+        </div>
+
+        <div class="display text-3xl font-bold mt-7">
+          ${formatPrice(product.price)}
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 mt-8 text-sm">
+          ${product.ram ? `<div class="border border-[var(--line)] p-4"><span class="text-[var(--muted)]">RAM</span><br><strong>${product.ram} Go</strong></div>` : ""}
+          ${product.storage ? `<div class="border border-[var(--line)] p-4"><span class="text-[var(--muted)]">Stockage</span><br><strong>${product.storage} Go</strong></div>` : ""}
+          ${product.battery ? `<div class="border border-[var(--line)] p-4"><span class="text-[var(--muted)]">Batterie</span><br><strong>${product.battery}${product.battery > 1000 ? " mAh" : " h"}</strong></div>` : ""}
+          <div class="border border-[var(--line)] p-4"><span class="text-[var(--muted)]">Réseau</span><br><strong>${product.network}</strong></div>
+        </div>
+
+        <button onclick="addToCart(${product.id});closeQuickView()"
+          class="btn btn-dark w-full mt-7">
+          Ajouter au panier
+        </button>
+
+        <button onclick="orderSingleWhatsApp(${product.id})"
+          class="w-full py-4 mt-2 text-[var(--success)] font-semibold">
+          Commander via WhatsApp
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("quickModal").classList.add("open");
+  lucide.createIcons();
+}
+
+function closeQuickView() {
+  document.getElementById("quickModal").classList.remove("open");
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function openSearch() {
+  document.getElementById("searchOverlay").classList.add("open");
+
+  setTimeout(() => {
+    document.getElementById("searchInput").focus();
+  }, 200);
+}
+
+function closeSearch() {
+  document.getElementById("searchOverlay").classList.remove("open");
+}
+
+function instantSearch(query) {
+  const results = PRODUCTS.filter(product =>
+    `${product.brand} ${product.model} ${product.category}`
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  ).slice(0, 8);
+
+  document.getElementById("searchResults").innerHTML =
+    results.map(productCard).join("");
+
+  lucide.createIcons();
+}
+
+
+/* =========================================================
+   NEW PRODUCTS SWIPER
+========================================================= */
+
+function renderNewProducts() {
+  const products = PRODUCTS.filter(p => p.isNew);
+
+  document.getElementById("newProducts").innerHTML =
+    products.map(p => `
+      <div class="swiper-slide">
+        ${productCard(p)}
+      </div>
+    `).join("");
+
+  new Swiper(".newSwiper", {
+    slidesPerView: 1.15,
+    spaceBetween: 12,
+    navigation: {
+      nextEl: ".new-next",
+      prevEl: ".new-prev"
+    },
+    breakpoints: {
+      640: { slidesPerView: 2.2 },
+      1024: { slidesPerView: 3.2 },
+      1400: { slidesPerView: 4 }
+    }
+  });
+
+  lucide.createIcons();
+}
+
+
+/* =========================================================
+   REVIEWS SWIPER
+========================================================= */
+
+function initReviews() {
+  new Swiper(".reviewSwiper", {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false
+    }
+  });
+}
+
+
+/* =========================================================
+   FLASH SALE
+========================================================= */
+
+function renderFlashSale() {
+  const product = PRODUCTS.find(p => p.id === 5);
+
+  document.getElementById("flashProduct").innerHTML = `
+    <div class="grid md:grid-cols-2 gap-5">
+      <div>
+        ${placeholderProduct(product)}
+      </div>
+
+      <div class="py-5">
+        <div class="text-xs opacity-40 uppercase tracking-[.15em]">
+          Samsung
+        </div>
+
+        <h3 class="display text-4xl font-bold mt-2">
+          Galaxy A56 5G
+        </h3>
+
+        <div class="flex items-end gap-3 mt-7">
+          <span class="display text-3xl font-bold">
+            ${formatPrice(product.price)}
+          </span>
+          <span class="line-through opacity-40">
+            ${formatPrice(product.oldPrice)}
+          </span>
+        </div>
+
+        <div class="mt-7 text-sm opacity-60">
+          Il reste ${product.stock} unités.
+        </div>
+
+        <div class="stock-bar mt-3">
+          <span style="width:${Math.max(18, product.stock * 5)}%"></span>
+        </div>
+
+        <button onclick="addToCart(${product.id})"
+          class="btn mt-8 border-white/30 text-white hover:bg-white hover:text-black">
+          Profiter de l'offre
+        </button>
+      </div>
+    </div>
+  `;
+
+  lucide.createIcons();
+}
+
+let saleEnd = Date.now() + (8 * 3600 + 42 * 60 + 19) * 1000;
+
+function updateCountdown() {
+  const remaining = Math.max(0, saleEnd - Date.now());
+
+  const totalSeconds = Math.floor(remaining / 1000);
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+
+  document.getElementById("hours").textContent = String(h).padStart(2, "0");
+  document.getElementById("minutes").textContent = String(m).padStart(2, "0");
+  document.getElementById("seconds").textContent = String(s).padStart(2, "0");
+}
+
+setInterval(updateCountdown, 1000);
+
+
+/* =========================================================
+   COMPARISON
+========================================================= */
+
+function populateComparison() {
+  const phones = PRODUCTS.filter(
+    p => p.category === "Smartphones"
+  );
+
+  ["compare1", "compare2", "compare3"].forEach((id, index) => {
+    const select = document.getElementById(id);
+
+    select.innerHTML = phones.map((p, i) =>
+      `<option value="${p.id}" ${i === index ? "selected" : ""}>
+        ${p.brand} ${p.model}
+      </option>`
+    ).join("");
+  });
+
+  updateComparison();
+}
+
+function updateComparison() {
+  const ids = [
+    Number(document.getElementById("compare1").value),
+    Number(document.getElementById("compare2").value),
+    Number(document.getElementById("compare3").value)
+  ];
+
+  const products = ids.map(productById);
+
+  document.getElementById("comparisonTable").innerHTML = `
+    <thead>
+      <tr class="border-b border-[var(--line)]">
+        <th class="py-4">Caractéristique</th>
+        ${products.map(p => `<th class="p-4">${p.brand}<br>${p.model}</th>`).join("")}
+      </tr>
+    </thead>
+
+    <tbody>
+      ${comparisonRow("Prix", p => formatPrice(p.price))}
+      ${comparisonRow("RAM", p => p.ram ? p.ram + " Go" : "—")}
+      ${comparisonRow("Stockage", p => p.storage ? p.storage + " Go" : "—")}
+      ${comparisonRow("Batterie", p => p.battery > 1000 ? p.battery + " mAh" : "—")}
+      ${comparisonRow("Caméra", p => p.camera)}
+      ${comparisonRow("Réseau", p => p.network)}
+      ${comparisonRow("Note", p => "★ " + p.rating)}
+    </tbody>
+  `;
+
+  renderComparisonChart(products);
+}
+
+function comparisonRow(label, callback) {
+  const ids = [
+    Number(document.getElementById("compare1").value),
+    Number(document.getElementById("compare2").value),
+    Number(document.getElementById("compare3").value)
+  ];
+
+  const products = ids.map(productById);
+
+  return `
+    <tr class="border-b border-[var(--line)]">
+      <td class="py-4 text-[var(--muted)]">${label}</td>
+      ${products.map(p => `<td class="p-4 font-semibold">${callback(p)}</td>`).join("")}
+    </tr>
+  `;
+}
+
+function renderComparisonChart(products) {
+  const ctx = document.getElementById("comparisonChart");
+
+  if (comparisonChart) {
+    comparisonChart.destroy();
+  }
+
+  comparisonChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["RAM", "Batterie", "Caméra", "Note"],
+      datasets: products.map(product => ({
+        label: product.model,
+        data: [
+          product.ram || 0,
+          product.battery > 1000 ? product.battery / 500 : 0,
+          parseInt(product.camera) || 0,
+          product.rating * 10
+        ]
+      }))
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom"
+        }
+      }
+    }
+  });
+}
+
+
+/* =========================================================
+   BUDGET
+========================================================= */
+
+function budgetFilter(max) {
+  const products = PRODUCTS.filter(
+    p =>
+      p.category === "Smartphones" &&
+      p.price <= max &&
+      ["itel", "Tecno", "Infinix"].includes(p.brand)
+  );
+
+  document.getElementById("budgetGrid").innerHTML =
+    products.map(productCard).join("");
+
+  lucide.createIcons();
+}
+
+function initialBudget() {
+  budgetFilter(200000);
+}
+
+
+/* =========================================================
+   ACCESSORIES
+========================================================= */
+
+function accessoryTab(category) {
+  const categories = {
+    Charge: ["Charge"],
+    Protection: ["Protection"],
+    Audio: ["Audio"],
+    Power: ["Power"],
+    Câbles: ["Câbles"]
+  };
+
+  const products = PRODUCTS.filter(
+    p => categories[category].includes(p.category)
+  );
+
+  document.getElementById("accessoryGrid").innerHTML =
+    products.map(productCard).join("");
+
+  document.querySelectorAll("#accessories .tab").forEach(tab => {
+    tab.classList.toggle(
+      "active",
+      tab.textContent.trim() === category
+    );
+  });
+
+  lucide.createIcons();
+}
+
+
+/* =========================================================
+   BUNDLES
+========================================================= */
+
+function renderBundle() {
+  const phone = PRODUCTS.find(p => p.id === 5);
+  const charger = PRODUCTS.find(p => p.id === 19);
+  const caseProduct = PRODUCTS.find(p => p.id === 21);
+  const glass = PRODUCTS.find(p => p.id === 22);
+
+  const total = phone.price + charger.price + caseProduct.price + glass.price;
+  const bundle = 274900;
+  const saving = total - bundle;
+
+  document.getElementById("bundleContainer").innerHTML = `
+    <div class="card p-7 md:p-10">
+      <div class="flex justify-between items-start">
+        <div>
+          <span class="badge">Pack quotidien</span>
+          <h3 class="display text-3xl mt-5">Galaxy A56 + essentiels</h3>
+        </div>
+
+        <div class="text-right">
+          <div class="text-xs text-[var(--muted)]">Économie</div>
+          <div class="font-bold text-[var(--accent)]">
+            ${formatPrice(saving)}
+          </div>
+        </div>
+      </div>
+
+      <div class="bundle-line"></div>
+
+      ${[phone, charger, caseProduct, glass].map(p => `
+        <div class="flex justify-between py-3 text-sm">
+          <span>${p.brand} ${p.model}</span>
+          <span>${formatPrice(p.price)}</span>
+        </div>
+      `).join("")}
+
+      <div class="bundle-line"></div>
+
+      <div class="flex justify-between items-end">
+        <div>
+          <div class="text-xs text-[var(--muted)]">Prix du pack</div>
+          <div class="display text-3xl font-bold">${formatPrice(bundle)}</div>
+        </div>
+
+        <button onclick="addBundle()" class="btn btn-dark">
+          Ajouter le pack
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function addBundle() {
+  [5,19,21,22].forEach(id => {
+    const existing = cart.find(item => item.id === id);
+
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({id, qty:1});
+    }
+  });
+
+  saveState();
+  updateCartUI();
+  toast("Pack ajouté au panier.");
+}
+
+
+/* =========================================================
+   FINANCING
+========================================================= */
+
+function calculateFinance() {
+  const price = Number(document.getElementById("financePrice").value) || 0;
+  const deposit = Number(document.getElementById("financeDeposit").value) || 0;
+  const duration = Number(document.getElementById("financeDuration").value);
+
+  const remaining = Math.max(0, price - deposit);
+
+  const monthly = remaining / duration;
+
+  document.getElementById("monthlyPayment").textContent =
+    formatPrice(monthly);
+}
+
+
+/* =========================================================
+   TRADE IN
+========================================================= */
+
+function estimateTrade() {
+  const brand = document.getElementById("tradeBrand").value;
+  const age = Number(document.getElementById("tradeAge").value);
+  const condition = Number(document.getElementById("tradeCondition").value);
+  const storage = Number(document.getElementById("tradeStorage").value);
+
+  const base = {
+    Apple: 190000,
+    Samsung: 145000,
+    Tecno: 80000,
+    Infinix: 75000,
+    itel: 45000
+  }[brand];
+
+  const value = Math.round(base * age * condition * storage / 1000) * 1000;
+
+  document.getElementById("tradeValue").textContent =
+    formatPrice(value);
+
+  document.getElementById("tradeResult").classList.remove("hidden");
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+function orderWhatsApp() {
+  if (!cart.length) {
+    toast("Votre panier est vide.", "warning");
+    return;
+  }
+
+  const lines = cart.map(item => {
+    const p = productById(item.id);
+
+    return `• ${p.brand} ${p.model} x${item.qty} — ${formatPrice(p.price * item.qty)}`;
+  });
+
+  const message = [
+    `Bonjour MHSHOP,`,
+    ``,
+    `Je souhaite commander :`,
+    ...lines,
+    ``,
+    `Total : ${formatPrice(cartSubtotal())}`,
+    ``,
+    `Merci de me confirmer la disponibilité et les modalités de livraison.`
+  ].join("\n");
+
+  window.open(
+    `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+}
+
+function orderSingleWhatsApp(id) {
+  const product = productById(id);
+
+  const message =
+    `Bonjour MHSHOP,\n\n` +
+    `Je souhaite commander : ${product.brand} ${product.model}\n` +
+    `Prix : ${formatPrice(product.price)}\n\n` +
+    `Pouvez-vous confirmer la disponibilité ?`;
+
+  window.open(
+    `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+function openCheckout() {
+  if (!cart.length) {
+    toast("Ajoutez d'abord un produit au panier.", "warning");
+    return;
+  }
+
+  checkoutStep = 1;
+
+  document.getElementById("checkoutModal").classList.add("open");
+
+  updateCheckoutStep();
+}
+
+function closeCheckout() {
+  document.getElementById("checkoutModal").classList.remove("open");
+}
+
+function nextCheckout(event) {
+  event.preventDefault();
+
+  if (checkoutStep < 3) {
+    checkoutStep++;
+    updateCheckoutStep();
+    return;
+  }
+
+  checkoutStep = 4;
+  updateCheckoutStep();
+
+  cart = [];
+  promoDiscount = 0;
+  saveState();
+  updateCartUI();
+}
+
+function updateCheckoutStep() {
+  for (let i = 1; i <= 4; i++) {
+    const step = document.getElementById(`step${i}`);
+    const content = document.getElementById(`checkoutStep${i}`);
+
+    if (i <= checkoutStep) {
+      step.classList.add("active");
+    } else {
+      step.classList.remove("active");
+    }
+
+    if (content) {
+      content.classList.toggle("hidden", i !== checkoutStep);
+    }
+  }
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme() {
+  const current =
+    document.documentElement.getAttribute("data-theme");
+
+  const next = current === "dark" ? "light" : "dark";
+
+  if (next === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+
+  try {
+    localStorage.setItem("mhshop_theme", next);
+  } catch {}
+}
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+function setLanguage(language) {
+  if (language === "en") {
+    toast("English interface selected. Translation layer ready.");
+  } else {
+    toast("Interface française sélectionnée.");
+  }
+}
+
+
+/* =========================================================
+   CURRENCY
+========================================================= */
+
+function setCurrency(currency) {
+  currentCurrency = currency;
+  saveState();
+
+  document.getElementById("priceLabel").textContent =
+    formatPrice(document.getElementById("priceFilter").value);
+
+  renderFeatured();
+  renderCatalog();
+  renderNewProducts();
+  updateCartUI();
+  updateComparison();
+  renderBundle();
+  calculateFinance();
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function toggleMobileMenu() {
+  document.getElementById("mobileMenu").classList.toggle("open");
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+function toggleFaq(button) {
+  const faq = button.closest(".faq");
+
+  document.querySelectorAll(".faq").forEach(item => {
+    if (item !== faq) {
+      item.classList.remove("open");
+    }
+  });
+
+  faq.classList.toggle("open");
+}
+
+
+/* =========================================================
+   NEWSLETTER
+========================================================= */
+
+function subscribe(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("newsletterEmail").value;
+  const message = document.getElementById("newsletterMessage");
+
+  if (!email.includes("@")) {
+    message.textContent = "Veuillez entrer une adresse valide.";
+    message.style.color = "#db7165";
+    return;
+  }
+
+  message.textContent =
+    "Merci. Votre inscription a bien été enregistrée.";
+
+  message.style.color = "#7db99d";
+
+  document.getElementById("newsletterEmail").value = "";
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function toast(message, type = "success") {
+  const element = document.getElementById("toast");
+  const text = document.getElementById("toastText");
+
+  text.textContent = message;
+
+  element.style.borderLeft =
+    type === "error"
+      ? "3px solid var(--danger)"
+      : type === "warning"
+      ? "3px solid var(--accent)"
+      : "3px solid var(--success)";
+
+  element.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    element.classList.remove("show");
+  }, 3200);
+}
+
+
+/* =========================================================
+   GSAP / LENIS
+========================================================= */
+
+function initAnimations() {
+  if (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    document.querySelectorAll(".reveal").forEach(el => {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+
+    return;
+  }
+
+  if (typeof Lenis !== "undefined") {
+    const lenis = new Lenis({
+      duration: 1.05,
+      smoothWheel: true
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  }
+
+  if (typeof gsap !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray(".reveal").forEach(element => {
+      gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        duration: .9,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 88%",
+          once: true
+        }
+      });
+    });
+
+    gsap.from("#heroProduct", {
+      opacity: 0,
+      scale: .96,
+      x: 40,
+      duration: 1.2,
+      ease: "power3.out",
+      delay: .2
+    });
+
+    gsap.to(".hero-phone", {
+      y: -15,
+      rotation: 9,
+      duration: 2.8,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
+  }
+}
+
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+function initCursor() {
+  if (!window.matchMedia("(pointer:fine)").matches) return;
+
+  const dot = document.getElementById("cursorDot");
+  const ring = document.getElementById("cursorRing");
+
+  let x = 0;
+  let y = 0;
+  let rx = 0;
+  let ry = 0;
+
+  document.addEventListener("mousemove", e => {
+    x = e.clientX;
+    y = e.clientY;
+
+    dot.style.transform =
+      `translate(${x - 3}px, ${y - 3}px)`;
+  });
+
+  function animateCursor() {
+    rx += (x - rx) * .15;
+    ry += (y - ry) * .15;
+
+    ring.style.transform =
+      `translate(${rx - 15}px, ${ry - 15}px)`;
+
+    requestAnimationFrame(animateCursor);
+  }
+
+  animateCursor();
+
+  document.querySelectorAll("button,a").forEach(el => {
+    el.addEventListener("mouseenter", () => {
+      ring.style.transform += " scale(1.35)";
+    });
+  });
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  try {
+    if (localStorage.getItem("mhshop_theme") === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  } catch {}
+
+  document.getElementById("currencySelect").value = currentCurrency;
+
+  lucide.createIcons();
+
+  renderFeatured();
+  renderCatalog();
+  renderNewProducts();
+  renderFlashSale();
+  populateComparison();
+  initialBudget();
+  accessoryTab("Charge");
+  renderBundle();
+
+  updateCartUI();
+  updateFavoriteCount();
+  calculateFinance();
+
+  initReviews();
+  initAnimations();
+  initCursor();
+
+  updateCountdown();
+
+  document.getElementById("priceLabel").textContent =
+    formatPrice(document.getElementById("priceFilter").value);
+
+  setTimeout(() => {
+    document.getElementById("loader").style.opacity = "0";
+    document.getElementById("loader").style.transition = "opacity .5s ease";
+
+    setTimeout(() => {
+      document.getElementById("loader").remove();
+    }, 550);
+  }, 650);
+});
+
+
+/* =========================================================
+   KEYBOARD / ACCESSIBILITY
+========================================================= */
+
+document.addEventListener("keydown", event => {
+
+  if (event.key === "Escape") {
+    closeSearch();
+    closeCart();
+    closeQuickView();
+    closeCheckout();
+
+    document.getElementById("mobileMenu")
+      .classList.remove("open");
+  }
+
+});
+
+
+/* =========================================================
+   HANDLE WINDOW RESIZE
+========================================================= */
+
+let resizeTimer;
+
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+
+  resizeTimer = setTimeout(() => {
+    if (typeof ScrollTrigger !== "undefined") {
+      ScrollTrigger.refresh();
+    }
+  }, 250);
+});
+
+</script>
+
+<!-- =========================================================
+     JSON-LD SEO
+========================================================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "MHSHOP",
+  "description": "Boutique de smartphones, gadgets et accessoires technologiques.",
+  "url": "https://example.com",
+  "currenciesAccepted": "XAF, USD, EUR, NGN",
+  "paymentAccepted": "Mobile Money, Visa, Mastercard"
+}
+</script>
+
+</body>
+</html>
